@@ -82,6 +82,14 @@ public class FacturaController {
         return ResponseEntity.ok(facturaService.listarPorEstado(estado, pageable));
     }
 
+    @Operation(summary = "Historial completo de facturas", description = "Todas las facturas del sistema, sin filtrar por estado ni asociado. Admite orden y paginacion (ej: ?sort=fechaEmision,desc).")
+    @SecurityRequirement(name = "bearerAuth")
+    @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('TESORERO')")
+    @GetMapping("/todas")
+    public ResponseEntity<Page<FacturaResponse>> listarTodas(Pageable pageable) {
+        return ResponseEntity.ok(facturaService.listarTodas(pageable));
+    }
+
     @Operation(summary = "Ver factura en HTML", description = "Version oficial en linea, identica a la version PDF (7.9).")
     @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('TESORERO') or hasRole('ASOCIADO')")

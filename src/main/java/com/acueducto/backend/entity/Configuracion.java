@@ -103,4 +103,9 @@ public class Configuracion extends BaseEntity {
 
     @Column(name = "sello_activo", length = 200)
     private String selloActivo;
+
+    /** Interruptor general de auditoria (solo el Administrador puede desactivarlo). */
+    @Builder.Default
+    @Column(name = "auditoria_activa", nullable = false)
+    private boolean auditoriaActiva = true;
 }

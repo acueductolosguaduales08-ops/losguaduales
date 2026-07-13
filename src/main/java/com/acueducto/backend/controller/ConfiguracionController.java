@@ -85,4 +85,13 @@ public class ConfiguracionController {
     public ResponseEntity<List<ArchivoInstitucional>> listarArchivos(@PathVariable TipoArchivoInstitucional tipo) {
         return ResponseEntity.ok(configuracionService.listarArchivosPorTipo(tipo));
     }
+
+    @Operation(summary = "Sincronizar archivos institucionales",
+            description = "Detecta imagenes ya colocadas directamente en storage/config/{logo|firma|sello} en el servidor "
+                    + "y las deja disponibles para seleccionar, sin necesidad de subirlas por formulario.")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PostMapping("/archivos/{tipo}/sincronizar")
+    public ResponseEntity<List<ArchivoInstitucional>> sincronizarArchivos(@PathVariable TipoArchivoInstitucional tipo) {
+        return ResponseEntity.ok(configuracionService.sincronizarCarpeta(tipo));
+    }
 }

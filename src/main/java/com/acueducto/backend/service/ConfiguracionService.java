@@ -177,4 +177,54 @@ public class ConfiguracionService {
     public List<ArchivoInstitucional> listarArchivosPorTipo(TipoArchivoInstitucional tipo) {
         return archivoInstitucionalRepository.findByTipo(tipo);
     }
+
+    /**
+     * Registra en la base de datos cualquier imagen que ya haya sido colocada directamente
+     * en la carpeta de almacenamiento del servidor (storage/config/logo|firma|sello), sin
+     * necesidad de subirla por la API. Util cuando la subida por formulario no es viable:
+     * basta con copiar el archivo al servidor y llamar a este metodo (o pulsar
+     * "Actualizar lista" en el panel) para que quede disponible y seleccionable.
+     */
+    @Transactional
+    public List<ArchivoInstitucional> sincronizarCarpeta(TipoArchivoInstitucional tipo) {
+        String carpeta = switch (tipo) {
+            case LOGO -> "logo";
+            case FIRMA -> "firma";
+            case SELLO -> "sello";
+        };
+        Path directorio = Path.of(storageConfig.getConfigPath(), carpeta);
+
+        try {
+            Files.createDirectories(directorio);
+            List<ArchivoInstitucional> existentes = archivoInstitucionalRepository.findByTipo(tipo);
+            java.util.Set<String> nombresYaRegistrados = existentes.stream()
+                    .map(ArchivoInstitucional::getNombreArchivo)
+                    .collect(java.util.stream.Collectors.toSet());
+
+            try (var stream = Files.list(directorio)) {
+                stream.filter(Files::isRegularFile)
+                        .filter(p -> esImagen(p.getFileName().toString()))
+                        .filter(p -> !nombresYaRegistrados.contains(p.getFileName().toString()))
+                        .forEach(p -> {
+                            ArchivoInstitucional nuevo = ArchivoInstitucional.builder()
+                                    .tipo(tipo)
+                                    .nombreArchivo(p.getFileName().toString())
+                                    .ruta("/config/" + carpeta + "/" + p.getFileName())
+                                    .activo(false)
+                                    .build();
+                            archivoInstitucionalRepository.save(nuevo);
+                            auditoriaService.registrar("SINCRONIZAR_ARCHIVO_INSTITUCIONAL", "CONFIGURACION",
+                                    nuevo.getNombreArchivo(), tipo.name());
+                        });
+            }
+            return archivoInstitucionalRepository.findByTipo(tipo);
+        } catch (IOException e) {
+            throw new RuntimeException("No fue posible leer la carpeta de archivos institucionales: " + directorio, e);
+        }
+    }
+
+    private boolean esImagen(String nombreArchivo) {
+        String n = nombreArchivo.toLowerCase();
+        return n.endsWith(".png") || n.endsWith(".jpg") || n.endsWith(".jpeg") || n.endsWith(".webp") || n.endsWith(".svg");
+    }
 }

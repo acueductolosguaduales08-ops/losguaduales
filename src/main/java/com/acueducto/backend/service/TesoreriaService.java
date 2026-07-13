@@ -254,6 +254,11 @@ public class TesoreriaService {
         return movimientoTesoreriaRepository.findByTipo(tipo, pageable).map(MovimientoTesoreriaResponse::fromEntity);
     }
 
+    /** Historial combinado de entradas y salidas, ordenado (ej: ?sort=fecha,desc). Util para una vista unica de movimientos. */
+    public Page<MovimientoTesoreriaResponse> listarTodosLosMovimientos(Pageable pageable) {
+        return movimientoTesoreriaRepository.findAll(pageable).map(MovimientoTesoreriaResponse::fromEntity);
+    }
+
     public Page<ReciboResponse> listarRecibosPorAsociado(Long asociadoId, Pageable pageable) {
         return reciboRepository.findByAsociadoId(asociadoId, pageable).map(ReciboResponse::fromEntity);
     }

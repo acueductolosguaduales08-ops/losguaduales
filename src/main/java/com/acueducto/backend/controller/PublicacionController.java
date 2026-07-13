@@ -5,6 +5,7 @@ import com.acueducto.backend.dto.request.EtiquetaRequest;
 import com.acueducto.backend.dto.request.PublicacionRequest;
 import com.acueducto.backend.dto.request.VideoRequest;
 import com.acueducto.backend.dto.response.PublicacionResponse;
+import com.acueducto.backend.dto.response.ReaccionResponse;
 import com.acueducto.backend.entity.Categoria;
 import com.acueducto.backend.entity.Etiqueta;
 import com.acueducto.backend.entity.Video;
@@ -135,6 +136,28 @@ public class PublicacionController {
     @PatchMapping("/videos/{id}/ocultar")
     public ResponseEntity<Void> ocultarVideo(@PathVariable Long id) {
         publicacionService.ocultarVideo(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    // ---- Reacciones (publico, sin login) ----
+
+    @Operation(summary = "Ver reacciones de una publicacion", description = "Conteo total por cada emoji. Publico (11.x).")
+    @GetMapping("/{id}/reacciones")
+    public ResponseEntity<List<ReaccionResponse>> listarReacciones(@PathVariable Long id) {
+        return ResponseEntity.ok(publicacionService.listarReacciones(id));
+    }
+
+    @Operation(summary = "Reaccionar a una publicacion", description = "Suma 1 al contador del emoji indicado. Publico, no requiere sesion. "
+            + "Evitar reacciones repetidas del mismo dispositivo es responsabilidad del frontend.")
+    @PostMapping("/{id}/reacciones")
+    public ResponseEntity<ReaccionResponse> reaccionar(@PathVariable Long id, @RequestParam String emoji) {
+        return ResponseEntity.ok(publicacionService.reaccionar(id, emoji));
+    }
+
+    @Operation(summary = "Quitar una reaccion propia", description = "Resta 1 al contador del emoji indicado (nunca baja de cero). Publico.")
+    @DeleteMapping("/{id}/reacciones")
+    public ResponseEntity<Void> quitarReaccion(@PathVariable Long id, @RequestParam String emoji) {
+        publicacionService.quitarReaccion(id, emoji);
         return ResponseEntity.noContent().build();
     }
 }

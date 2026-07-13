@@ -83,7 +83,12 @@ public class EncuestaController {
         return ResponseEntity.ok(encuestaService.listarActivas());
     }
 
-    @Operation(summary = "Ver un formulario", description = "Publico o Asociado, segun configuracion del formulario.")
+    @Operation(summary = "Ver un formulario por codigo", description = "Usado al escanear el codigo QR del formulario (12.14). Publico.")
+    @GetMapping("/codigo/{codigo}")
+    public ResponseEntity<EncuestaResponse> obtenerPorCodigo(@PathVariable String codigo) {
+        return ResponseEntity.ok(encuestaService.obtenerPorCodigo(codigo));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<EncuestaResponse> obtener(@PathVariable Long id) {
         return ResponseEntity.ok(encuestaService.obtener(id));

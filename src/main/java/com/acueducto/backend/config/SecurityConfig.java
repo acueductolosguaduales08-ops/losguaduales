@@ -49,7 +49,8 @@ public class SecurityConfig {
             "/api/v1/consultas/**",
             "/api/v1/facturas/qr/**",
             "/api/v1/recibos/qr/**",
-            "/api/v1/encuestas/*/responder" // responder un formulario es una escritura intencionalmente publica
+            "/api/v1/encuestas/*/responder", // responder un formulario es una escritura intencionalmente publica
+            "/api/v1/publicaciones/*/reacciones" // reaccionar a una publicacion/imagen es publico, sin login
     };
 
     /** Rutas de solo lectura que deben quedar publicas unicamente para peticiones GET (2.7 / 11.3 / 13.3). */
@@ -60,7 +61,8 @@ public class SecurityConfig {
             "/api/v1/publicaciones/categorias/**",
             "/api/v1/publicaciones/etiquetas/**",
             "/api/v1/publicaciones/videos/publicos/**",
-            "/api/v1/encuestas/publicas/**"
+            "/api/v1/encuestas/publicas/**",
+            "/api/v1/encuestas/codigo/**"
     };
 
     @Bean

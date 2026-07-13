@@ -73,6 +73,12 @@ public class TesoreriaController {
         return ResponseEntity.ok(tesoreriaService.listarMovimientos(tipo, pageable));
     }
 
+    @Operation(summary = "Historial combinado de movimientos", description = "Entradas y salidas juntas en una sola lista, ordenadas (ej: ?sort=fecha,desc).")
+    @GetMapping("/movimientos/todos")
+    public ResponseEntity<Page<MovimientoTesoreriaResponse>> listarTodosLosMovimientos(Pageable pageable) {
+        return ResponseEntity.ok(tesoreriaService.listarTodosLosMovimientos(pageable));
+    }
+
     @Operation(summary = "Caja diaria", description = "Ingresos, gastos y balance del dia actual (8.10).")
     @GetMapping("/caja-diaria")
     public ResponseEntity<CajaDiariaResponse> cajaDiaria() {

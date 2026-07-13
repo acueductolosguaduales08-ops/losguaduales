@@ -23,6 +23,8 @@ public class MovimientoTesoreriaResponse {
     private String concepto;
     private String categoria;
     private String usuario;
+    private String facturaNumero;
+    private String reciboNumero;
 
     public static MovimientoTesoreriaResponse fromEntity(MovimientoTesoreria m) {
         String prefijo = m.getTipo() == TipoMovimiento.ENTRADA ? "ENT-" : "SAL-";
@@ -35,6 +37,8 @@ public class MovimientoTesoreriaResponse {
                 .concepto(m.getConcepto())
                 .categoria(m.getCategoria())
                 .usuario(m.getUsuario().getUsername())
+                .facturaNumero(m.getFactura() != null ? m.getFactura().getNumeroFactura() : null)
+                .reciboNumero(m.getRecibo() != null ? m.getRecibo().getNumeroRecibo() : null)
                 .build();
     }
 }

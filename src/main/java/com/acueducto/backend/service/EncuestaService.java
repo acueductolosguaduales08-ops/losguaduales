@@ -170,6 +170,13 @@ public class EncuestaService {
         return EncuestaResponse.fromEntity(obtenerEntidad(id));
     }
 
+    /** Resuelve una encuesta a partir del codigo impreso/codificado en su QR (12.14). */
+    public EncuestaResponse obtenerPorCodigo(String codigo) {
+        Encuesta encuesta = encuestaRepository.findByCodigo(codigo)
+                .orElseThrow(() -> new RecursoNoEncontradoException("No se encontro un formulario con el codigo " + codigo));
+        return EncuestaResponse.fromEntity(encuesta);
+    }
+
     public Encuesta obtenerEntidad(Long id) {
         return encuestaRepository.findById(id)
                 .orElseThrow(() -> new RecursoNoEncontradoException("Encuesta no encontrada con id " + id));

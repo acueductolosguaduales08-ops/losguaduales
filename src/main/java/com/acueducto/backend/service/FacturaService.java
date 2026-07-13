@@ -193,4 +193,9 @@ public class FacturaService {
     public Page<FacturaResponse> listarPorEstado(EstadoFactura estado, Pageable pageable) {
         return facturaRepository.findByEstado(estado, pageable).map(FacturaResponse::fromEntity);
     }
+
+    /** Historial completo de facturas, sin filtrar por asociado ni estado (util para Swagger y para el panel de Tesoreria/Administrador). */
+    public Page<FacturaResponse> listarTodas(Pageable pageable) {
+        return facturaRepository.findAll(pageable).map(FacturaResponse::fromEntity);
+    }
 }

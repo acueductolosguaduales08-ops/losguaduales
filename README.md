@@ -163,5 +163,3 @@ Segun la definicion funcional, aun no existe una URL de frontend definitiva. Los
 generan apuntando a `${QR_BASE_URL}/factura/{numero}`, `.../recibo/{numero}` y
 `.../formulario/{codigo}`. Ajuste `QR_BASE_URL` cuando el frontend este desplegado; no
 es necesario regenerar los QR existentes si se usa el mismo esquema de rutas.
-#   a c u e d u c t o - l o s - g u a d u a l e s - a p i  
- 
