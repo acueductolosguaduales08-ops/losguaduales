@@ -64,6 +64,14 @@ public class PublicacionController {
         return ResponseEntity.ok(publicacionService.destacar(id, destacada));
     }
 
+    @Operation(summary = "Editar publicacion")
+    @SecurityRequirement(name = "bearerAuth")
+    @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('TESORERO')")
+    @PutMapping("/{id}")
+    public ResponseEntity<PublicacionResponse> actualizar(@PathVariable Long id, @Valid @RequestBody PublicacionRequest request) {
+        return ResponseEntity.ok(publicacionService.actualizar(id, request));
+    }
+
     @Operation(summary = "Eliminar publicacion definitivamente", description = "Exclusivo del Administrador (11.10).")
     @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize("hasRole('ADMINISTRADOR')")
@@ -71,6 +79,22 @@ public class PublicacionController {
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         publicacionService.eliminar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Listado completo para el panel de edicion", description = "Incluye borradores y ocultas, no solo publicadas. Tesorero/Administrador.")
+    @SecurityRequirement(name = "bearerAuth")
+    @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('TESORERO')")
+    @GetMapping("/admin")
+    public ResponseEntity<Page<PublicacionResponse>> listarTodas(Pageable pageable) {
+        return ResponseEntity.ok(publicacionService.listarTodas(pageable));
+    }
+
+    @Operation(summary = "Ver el detalle de una publicacion")
+    @SecurityRequirement(name = "bearerAuth")
+    @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('TESORERO')")
+    @GetMapping("/{id}")
+    public ResponseEntity<PublicacionResponse> obtener(@PathVariable Long id) {
+        return ResponseEntity.ok(publicacionService.obtener(id));
     }
 
     @Operation(summary = "Galeria publica", description = "Publicaciones publicadas, disponible sin login (11.5).")
@@ -88,7 +112,7 @@ public class PublicacionController {
     // ---- Categorias ----
     @Operation(summary = "Crear categoria")
     @SecurityRequirement(name = "bearerAuth")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('TESORERO')")
     @PostMapping("/categorias")
     public ResponseEntity<Categoria> crearCategoria(@Valid @RequestBody CategoriaRequest request) {
         return ResponseEntity.ok(publicacionService.crearCategoria(request));
@@ -103,7 +127,7 @@ public class PublicacionController {
     // ---- Etiquetas ----
     @Operation(summary = "Crear etiqueta")
     @SecurityRequirement(name = "bearerAuth")
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('TESORERO')")
     @PostMapping("/etiquetas")
     public ResponseEntity<Etiqueta> crearEtiqueta(@Valid @RequestBody EtiquetaRequest request) {
         return ResponseEntity.ok(publicacionService.crearEtiqueta(request));

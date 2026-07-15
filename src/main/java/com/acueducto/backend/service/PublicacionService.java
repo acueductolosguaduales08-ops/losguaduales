@@ -96,6 +96,35 @@ public class PublicacionService {
         return PublicacionResponse.fromEntity(publicacion);
     }
 
+    @Transactional
+    public PublicacionResponse actualizar(Long id, PublicacionRequest request) {
+        Publicacion publicacion = obtenerEntidad(id);
+
+        Categoria categoria = null;
+        if (request.categoriaId() != null) {
+            categoria = categoriaRepository.findById(request.categoriaId())
+                    .orElseThrow(() -> new RecursoNoEncontradoException("Categoria no encontrada"));
+        }
+
+        Set<Etiqueta> etiquetas = new HashSet<>();
+        if (request.etiquetasIds() != null) {
+            etiquetas.addAll(etiquetaRepository.findAllById(request.etiquetasIds()));
+        }
+
+        publicacion.setTitulo(request.titulo());
+        publicacion.setDescripcionCorta(request.descripcionCorta());
+        publicacion.setContenidoCompleto(request.contenidoCompleto());
+        publicacion.setImagenUrl(request.imagenUrl());
+        publicacion.setPosicionImagen(request.posicionImagen());
+        publicacion.setCategoria(categoria);
+        publicacion.setEtiquetas(etiquetas);
+        publicacion.setDestacada(request.destacada());
+
+        publicacion = publicacionRepository.save(publicacion);
+        auditoriaService.registrar("EDITAR_PUBLICACION", "PORTAL_PUBLICO", publicacion.getTitulo(), null);
+        return PublicacionResponse.fromEntity(publicacion);
+    }
+
     /** Solo el Administrador puede eliminar definitivamente una publicacion (11.10). */
     @Transactional
     public void eliminar(Long id) {
@@ -109,8 +138,17 @@ public class PublicacionService {
                 .orElseThrow(() -> new RecursoNoEncontradoException("Publicacion no encontrada con id " + id));
     }
 
+    public PublicacionResponse obtener(Long id) {
+        return PublicacionResponse.fromEntity(obtenerEntidad(id));
+    }
+
     public Page<PublicacionResponse> listarPublicadas(Pageable pageable) {
         return publicacionRepository.findByEstado(EstadoPublicacion.PUBLICADA, pageable).map(PublicacionResponse::fromEntity);
+    }
+
+    /** Historial completo (cualquier estado: borrador, publicada u oculta), para el panel de edicion. */
+    public Page<PublicacionResponse> listarTodas(Pageable pageable) {
+        return publicacionRepository.findAll(pageable).map(PublicacionResponse::fromEntity);
     }
 
     public List<PublicacionResponse> listarDestacadas() {
