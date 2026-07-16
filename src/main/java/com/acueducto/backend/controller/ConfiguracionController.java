@@ -6,6 +6,7 @@ import com.acueducto.backend.dto.response.ConfiguracionResponse;
 import com.acueducto.backend.entity.ArchivoInstitucional;
 import com.acueducto.backend.entity.MetodoPago;
 import com.acueducto.backend.entity.enums.TipoArchivoInstitucional;
+import jakarta.validation.constraints.NotBlank;
 import com.acueducto.backend.service.ConfiguracionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -69,6 +70,15 @@ public class ConfiguracionController {
     public ResponseEntity<ArchivoInstitucional> subirArchivo(@PathVariable TipoArchivoInstitucional tipo,
                                                               @RequestParam("archivo") MultipartFile archivo) {
         return ResponseEntity.ok(configuracionService.subirArchivoInstitucional(tipo, archivo));
+    }
+
+    @Operation(summary = "Registrar archivo institucional desde URL", description = "Permite usar un logo, firma o sello remoto sin subirlo al storage del servidor.")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @PostMapping("/archivos/{tipo}/url")
+    public ResponseEntity<ArchivoInstitucional> subirArchivoDesdeUrl(@PathVariable TipoArchivoInstitucional tipo,
+                                                                     @RequestParam @NotBlank String url,
+                                                                     @RequestParam(required = false) String nombreArchivo) {
+        return ResponseEntity.ok(configuracionService.subirArchivoInstitucionalDesdeUrl(tipo, url, nombreArchivo));
     }
 
     @Operation(summary = "Activar archivo institucional", description = "Selecciona cual logo/firma/sello se usara en los documentos (10.10).")

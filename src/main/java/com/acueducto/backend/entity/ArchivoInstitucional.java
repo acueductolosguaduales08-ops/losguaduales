@@ -1,5 +1,6 @@
 package com.acueducto.backend.entity;
 
+import com.acueducto.backend.entity.enums.FuenteArchivoInstitucional;
 import com.acueducto.backend.entity.enums.TipoArchivoInstitucional;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,10 @@ public class ArchivoInstitucional extends BaseEntity {
 
     @Column(nullable = false, length = 300)
     private String ruta;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 15)
+    private FuenteArchivoInstitucional fuente;
 
     @Builder.Default
     @Column(nullable = false)

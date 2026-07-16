@@ -42,7 +42,7 @@
 
 <div class="encabezado">
     <div class="logo">
-        <img th:if="${config.logoActivo}" th:src="'/storage' + ${config.logoActivo}" alt="Logo"/>
+        <img th:if="${config.logoActivo}" th:src="${config.logoActivo.startsWith('http') ? config.logoActivo : '/storage' + config.logoActivo}" alt="Logo"/>
     </div>
     <div class="datos">
         <h1 th:text="${config.nombreAcueducto}">Acueducto Los Guaduales</h1>
@@ -168,11 +168,11 @@
 
 <div class="firmas">
     <div class="firma">
-        <img th:if="${config.firmaActiva}" th:src="'/storage' + ${config.firmaActiva}" alt="Firma"/>
+        <img th:if="${config.firmaActiva}" th:src="${config.firmaActiva.startsWith('http') ? config.firmaActiva : '/storage' + config.firmaActiva}" alt="Firma"/>
         <div class="linea">Firma autorizada</div>
     </div>
     <div class="firma">
-        <img th:if="${config.selloActivo}" th:src="'/storage' + ${config.selloActivo}" alt="Sello"/>
+        <img th:if="${config.selloActivo}" th:src="${config.selloActivo.startsWith('http') ? config.selloActivo : '/storage' + config.selloActivo}" alt="Sello"/>
         <div class="linea">Sello oficial</div>
     </div>
 </div>

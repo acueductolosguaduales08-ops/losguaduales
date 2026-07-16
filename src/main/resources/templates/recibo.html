@@ -31,7 +31,7 @@
 
 <div class="encabezado">
     <div class="logo">
-        <img th:if="${config.logoActivo}" th:src="'/storage' + ${config.logoActivo}" alt="Logo"/>
+        <img th:if="${config.logoActivo}" th:src="${config.logoActivo.startsWith('http') ? config.logoActivo : '/storage' + config.logoActivo}" alt="Logo"/>
     </div>
     <div class="datos">
         <h1 th:text="${config.nombreAcueducto}">Acueducto Los Guaduales</h1>

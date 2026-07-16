@@ -7,6 +7,7 @@ import com.acueducto.backend.dto.response.ConfiguracionResponse;
 import com.acueducto.backend.entity.ArchivoInstitucional;
 import com.acueducto.backend.entity.Configuracion;
 import com.acueducto.backend.entity.MetodoPago;
+import com.acueducto.backend.entity.enums.FuenteArchivoInstitucional;
 import com.acueducto.backend.entity.enums.TipoArchivoInstitucional;
 import com.acueducto.backend.exception.RecursoNoEncontradoException;
 import com.acueducto.backend.repository.ArchivoInstitucionalRepository;
@@ -139,7 +140,11 @@ public class ConfiguracionService {
             String rutaRelativa = "/config/" + carpeta + "/" + nombreArchivo;
 
             ArchivoInstitucional entidad = ArchivoInstitucional.builder()
-                    .tipo(tipo).nombreArchivo(nombreArchivo).ruta(rutaRelativa).activo(false)
+                    .tipo(tipo)
+                    .nombreArchivo(nombreArchivo)
+                    .ruta(rutaRelativa)
+                    .fuente(FuenteArchivoInstitucional.STORAGE)
+                    .activo(false)
                     .build();
             entidad = archivoInstitucionalRepository.save(entidad);
 
@@ -148,6 +153,23 @@ public class ConfiguracionService {
         } catch (IOException e) {
             throw new RuntimeException("No fue posible guardar el archivo institucional", e);
         }
+    }
+
+    @Transactional
+    public ArchivoInstitucional subirArchivoInstitucionalDesdeUrl(TipoArchivoInstitucional tipo, String url, String nombreArchivo) {
+        String nombreFinal = (nombreArchivo == null || nombreArchivo.isBlank())
+                ? obtenerNombreDesdeUrl(url)
+                : nombreArchivo;
+        ArchivoInstitucional entidad = ArchivoInstitucional.builder()
+                .tipo(tipo)
+                .nombreArchivo(nombreFinal)
+                .ruta(url)
+                .fuente(FuenteArchivoInstitucional.URL)
+                .activo(false)
+                .build();
+        entidad = archivoInstitucionalRepository.save(entidad);
+        auditoriaService.registrar("SUBIR_ARCHIVO_INSTITUCIONAL_URL", "CONFIGURACION", nombreFinal, tipo.name());
+        return entidad;
     }
 
     /** Selecciona el archivo activo de un tipo sin necesidad de modificar el codigo (10.10). */
@@ -210,6 +232,7 @@ public class ConfiguracionService {
                                     .tipo(tipo)
                                     .nombreArchivo(p.getFileName().toString())
                                     .ruta("/config/" + carpeta + "/" + p.getFileName())
+                                    .fuente(FuenteArchivoInstitucional.STORAGE)
                                     .activo(false)
                                     .build();
                             archivoInstitucionalRepository.save(nuevo);
@@ -226,5 +249,14 @@ public class ConfiguracionService {
     private boolean esImagen(String nombreArchivo) {
         String n = nombreArchivo.toLowerCase();
         return n.endsWith(".png") || n.endsWith(".jpg") || n.endsWith(".jpeg") || n.endsWith(".webp") || n.endsWith(".svg");
+    }
+
+    private String obtenerNombreDesdeUrl(String url) {
+        if (url == null || url.isBlank()) {
+            return "archivo-institucional";
+        }
+        String[] partes = url.split("/");
+        String ultimo = partes[partes.length - 1];
+        return ultimo.isBlank() ? "archivo-institucional" : ultimo;
     }
 }
