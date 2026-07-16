@@ -106,6 +106,41 @@ public class NotificacionService {
         notificacionRepository.save(notificacion);
     }
 
+    /**
+     * Notifica a todos los Administradores y Tesoreros activos sobre un nuevo reporte
+     * ciudadano (fuga, queja o reclamo). Se apoya en el mismo modulo de notificaciones
+     * para no interferir con los demas modulos del sistema.
+     */
+    public void notificarNuevoReporteCiudadano(com.acueducto.backend.entity.ReporteCiudadano reporte) {
+        Usuario autorSistema = usuarioRepository.findAll().stream()
+                .filter(u -> u.getRol() == com.acueducto.backend.entity.enums.Rol.ADMINISTRADOR)
+                .findFirst().orElse(null);
+        if (autorSistema == null) return; // aun no existe un administrador (arranque inicial)
+
+        java.util.List<Usuario> destinatarios = usuarioRepository.findByRolInAndActivoTrue(java.util.List.of(
+                com.acueducto.backend.entity.enums.Rol.ADMINISTRADOR,
+                com.acueducto.backend.entity.enums.Rol.TESORERO));
+
+        String contenido = "Se envio el " + reporte.getFechaCreacion()
+                + ", reportado por " + reporte.getNombre()
+                + ". Se eliminara automaticamente el " + reporte.getFechaEliminacion() + ".";
+
+        for (Usuario destinatario : destinatarios) {
+            Notificacion notificacion = Notificacion.builder()
+                    .titulo("Nuevo reporte de fuga/queja recibido")
+                    .descripcionCorta("Reporte enviado por " + reporte.getNombre())
+                    .contenidoCompleto(contenido)
+                    .tipo(TipoNotificacion.ADMINISTRATIVA)
+                    .prioridad(PrioridadNotificacion.ALTA)
+                    .estado(EstadoNotificacion.ACTIVA)
+                    .autor(autorSistema)
+                    .destinatario(destinatario)
+                    .fechaPublicacion(LocalDateTime.now())
+                    .build();
+            notificacionRepository.save(notificacion);
+        }
+    }
+
     @Transactional
     public void marcarLeida(Long notificacionId, Long usuarioId) {
         var existente = notificacionLecturaRepository.findByNotificacionIdAndUsuarioId(notificacionId, usuarioId);

@@ -4,6 +4,7 @@ import com.acueducto.backend.dto.request.EncuestaRequest;
 import com.acueducto.backend.dto.request.ResponderEncuestaRequest;
 import com.acueducto.backend.dto.response.EncuestaEstadisticasResponse;
 import com.acueducto.backend.dto.response.EncuestaResponse;
+import com.acueducto.backend.dto.response.RespuestaEncuestaResponse;
 import com.acueducto.backend.security.UserPrincipal;
 import com.acueducto.backend.service.EncuestaService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -75,6 +76,15 @@ public class EncuestaController {
     @GetMapping("/{id}/estadisticas")
     public ResponseEntity<EncuestaEstadisticasResponse> estadisticas(@PathVariable Long id) {
         return ResponseEntity.ok(encuestaService.estadisticas(id));
+    }
+
+    @Operation(summary = "Ver todas las respuestas de un formulario",
+            description = "Muestra cada respuesta con el nombre de quien respondio (o \"Anonimo\" si el formulario es anonimo o no se identifico).")
+    @SecurityRequirement(name = "bearerAuth")
+    @PreAuthorize("hasRole('ADMINISTRADOR') or hasRole('TESORERO')")
+    @GetMapping("/{id}/respuestas")
+    public ResponseEntity<List<RespuestaEncuestaResponse>> listarRespuestas(@PathVariable Long id) {
+        return ResponseEntity.ok(encuestaService.listarRespuestas(id));
     }
 
     @Operation(summary = "Listar formularios activos (publico)", description = "Disponible sin iniciar sesion (2.7).")

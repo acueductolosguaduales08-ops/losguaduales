@@ -29,6 +29,13 @@ public class RespuestaEncuesta extends BaseEntity {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
+    /**
+     * Nombre digitado por un respondiente publico (sin sesion) cuando el formulario NO es anonimo.
+     * Queda nulo si el formulario es anonimo o si quien respondio lo hizo con una cuenta (usuario != null).
+     */
+    @Column(name = "nombre_respondiente", length = 150)
+    private String nombreRespondiente;
+
     @Column(nullable = false)
     private LocalDateTime fecha;
 

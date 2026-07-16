@@ -5,6 +5,7 @@ import com.acueducto.backend.dto.request.PreguntaEncuestaRequest;
 import com.acueducto.backend.dto.request.ResponderEncuestaRequest;
 import com.acueducto.backend.dto.response.EncuestaEstadisticasResponse;
 import com.acueducto.backend.dto.response.EncuestaResponse;
+import com.acueducto.backend.dto.response.RespuestaEncuestaResponse;
 import com.acueducto.backend.entity.*;
 import com.acueducto.backend.entity.enums.EstadoEncuesta;
 import com.acueducto.backend.exception.RecursoNoEncontradoException;
@@ -126,9 +127,24 @@ public class EncuestaService {
             throw new ReglaNegocioException("Ya ha respondido este formulario. Solo se permite una respuesta por participante.");
         }
 
+        boolean esAnonima = encuesta.isRespuestasAnonimas();
+
+        // Con respuestas anonimas activadas nunca se guarda ni se exige identidad, ni de cuenta ni de nombre.
+        Usuario usuarioAGuardar = esAnonima ? null : usuarioAutenticado;
+        String nombreAGuardar = null;
+
+        if (!esAnonima && usuarioAutenticado == null) {
+            // Formulario NO anonimo y quien responde no tiene sesion: el nombre pasa a ser obligatorio.
+            if (request.nombre() == null || request.nombre().isBlank()) {
+                throw new ReglaNegocioException("Este formulario no es anonimo, por lo tanto el nombre es obligatorio para responder.");
+            }
+            nombreAGuardar = request.nombre().trim();
+        }
+
         RespuestaEncuesta respuestaEncuesta = RespuestaEncuesta.builder()
                 .encuesta(encuesta)
-                .usuario(encuesta.isRespuestasAnonimas() ? null : usuarioAutenticado)
+                .usuario(usuarioAGuardar)
+                .nombreRespondiente(nombreAGuardar)
                 .fecha(LocalDateTime.now())
                 .ip(ip)
                 .build();
@@ -151,6 +167,14 @@ public class EncuestaService {
         }
 
         auditoriaService.registrar("RESPONDER_ENCUESTA", "ENCUESTAS", encuesta.getCodigo(), null);
+    }
+
+    /** Devuelve todas las respuestas registradas para un formulario, con el nombre de quien respondio (12.13). */
+    public List<RespuestaEncuestaResponse> listarRespuestas(Long encuestaId) {
+        obtenerEntidad(encuestaId); // valida que el formulario exista
+        return respuestaEncuestaRepository.findByEncuestaId(encuestaId).stream()
+                .map(RespuestaEncuestaResponse::fromEntity)
+                .toList();
     }
 
     public EncuestaEstadisticasResponse estadisticas(Long encuestaId) {

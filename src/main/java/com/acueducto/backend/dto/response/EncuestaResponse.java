@@ -25,6 +25,7 @@ public class EncuestaResponse {
     private boolean publico;
     private boolean requiereAutenticacion;
     private boolean respuestaUnica;
+    private boolean respuestasAnonimas;
     private LocalDateTime fechaInicio;
     private LocalDateTime fechaFin;
     private String codigoQr;
@@ -34,7 +35,8 @@ public class EncuestaResponse {
         return EncuestaResponse.builder()
                 .id(e.getId()).codigo(e.getCodigo()).titulo(e.getTitulo()).descripcion(e.getDescripcion())
                 .estado(e.getEstado()).publico(e.isPublico()).requiereAutenticacion(e.isRequiereAutenticacion())
-                .respuestaUnica(e.isRespuestaUnica()).fechaInicio(e.getFechaInicio()).fechaFin(e.getFechaFin())
+                .respuestaUnica(e.isRespuestaUnica()).respuestasAnonimas(e.isRespuestasAnonimas())
+                .fechaInicio(e.getFechaInicio()).fechaFin(e.getFechaFin())
                 .codigoQr(e.getCodigoQr())
                 .preguntas(e.getPreguntas().stream().map(PreguntaResponse::fromEntity).toList())
                 .build();
