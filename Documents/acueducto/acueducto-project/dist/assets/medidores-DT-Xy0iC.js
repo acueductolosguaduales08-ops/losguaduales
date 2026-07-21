@@ -1,0 +1,1 @@
+import{b as e}from"./index-JnvyY6vu.js";var t={crear:t=>e.post(`/api/v1/medidores`,t),editar:(t,n)=>e.put(`/api/v1/medidores/${t}`,n),cambiarEstado:(t,n)=>e.patch(`/api/v1/medidores/${t}/estado`,void 0,{params:{estado:n}}),listar:t=>e.get(`/api/v1/medidores`,{signal:t}),obtener:(t,n)=>e.get(`/api/v1/medidores/${t}`,{signal:n})};export{t};

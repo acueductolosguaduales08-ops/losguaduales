@@ -15,7 +15,8 @@ export default function SurveyFloat() {
 
   return (
     <div
-      className="w-full max-w-lg mx-auto transition-transform duration-300"
+      className="fixed right-4 top-20 z-40 transition-transform duration-300"
+      style={{ width: 'calc(100% - 32px)', maxWidth: '350px' }}
     >
       <button
         onClick={() => navigate('/encuestas')}

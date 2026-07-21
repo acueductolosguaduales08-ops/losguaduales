@@ -93,7 +93,7 @@ export default function LoginModal({ open, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 bg-black/60 z-[70] overflow-y-auto overscroll-contain touch-pan-y"
+      className="fixed inset-0 bg-black/60 z-[70] overflow-y-auto overscroll-contain"
       onClick={handleClose}
     >
       <div className="min-h-full flex items-start sm:items-center justify-center p-4 py-8">

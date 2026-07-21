@@ -71,12 +71,6 @@ body {
   transform: translateY(-8.5px) rotate(-45deg);
 }
 
-/* ===== Fix scroll táctil en modales para móvil ===== */
-.touch-pan-y {
-  touch-action: pan-y;
-  -webkit-overflow-scrolling: touch;
-}
-
 /* ===== Módulo 11: Notificaciones ===== */
 @keyframes toastIn {
   0% { transform: translateY(-12px) scale(0.95); opacity: 0; }

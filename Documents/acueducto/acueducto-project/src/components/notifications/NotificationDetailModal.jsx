@@ -56,7 +56,7 @@ export default function NotificationDetailModal() {
   const tieneImagen = !!detalle.enlaceUrl && !imgError;
 
   return (
-    <div className="fixed inset-0 z-[95] flex items-start sm:items-center justify-center p-4 py-8 overflow-y-auto overscroll-contain touch-pan-y">
+    <div className="fixed inset-0 z-[95] flex items-start sm:items-center justify-center p-4 py-8 overflow-y-auto overscroll-contain">
       <div
         className="fixed inset-0 bg-black/50 backdrop-blur-sm"
         onClick={cerrarDetalle}

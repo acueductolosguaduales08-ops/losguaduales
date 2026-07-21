@@ -1,0 +1,1 @@
+import{b as e}from"./index-C5SqL2B_.js";var t={dashboard:t=>e.get(`/api/v1/estadisticas/dashboard`,{signal:t})};export{t};

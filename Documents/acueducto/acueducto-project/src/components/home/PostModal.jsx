@@ -51,7 +51,7 @@ export default function PostModal({ post, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-start sm:items-center justify-center overflow-y-auto p-4 sm:p-8 pt-8 pb-8 touch-pan-y"
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-start sm:items-center justify-center overflow-y-auto p-4 sm:p-8 pt-8 pb-8"
       onClick={onClose}
     >
       <div

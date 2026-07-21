@@ -1,0 +1,1 @@
+import{b as e}from"./index-JnvyY6vu.js";var t={dashboard:t=>e.get(`/api/v1/estadisticas/dashboard`,{signal:t})};export{t};

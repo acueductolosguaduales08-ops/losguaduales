@@ -1,4 +1,4 @@
-﻿import { lazy, Suspense, useState, useEffect } from 'react';
+import { lazy, Suspense, useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Intro from './components/common/Intro';
 import Home from './pages/Home';
@@ -6,10 +6,10 @@ import ErrorBoundary from './components/common/ErrorBoundary';
 import RouteLoading from './components/common/RouteLoading';
 import { solicitarPermisoNotificaciones } from './utils/notificacionesSistema';
 
-// Code-splitting por ruta: cada p├ígina se descarga solo cuando el usuario
-// navega a ella, en vez de que el bundle inicial cargue las ~20 p├íginas de
+// Code-splitting por ruta: cada página se descarga solo cuando el usuario
+// navega a ella, en vez de que el bundle inicial cargue las ~20 páginas de
 // una sola vez. Home queda fuera del lazy() porque es la pantalla de
-// entrada m├ís com├║n y as├¡ se ve al instante tras el Intro.
+// entrada más común y así se ve al instante tras el Intro.
 const Encuestas = lazy(() => import('./pages/Encuestas'));
 const EscanearQr = lazy(() => import('./pages/EscanearQr'));
 const CrearNotificacion = lazy(() => import('./pages/CrearNotificacion'));
