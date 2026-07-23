@@ -26,10 +26,9 @@ export default function Home() {
     <div className="relative bg-gray-50 text-gray-800 dark:bg-dark-bg dark:text-gray-100 min-h-screen font-sans antialiased pb-24 transition-colors">
       <Header />
 
+      <SurveyFloat />
+
       <main className="w-full max-w-6xl mx-auto pt-16 md:pt-20 pb-10 px-4 md:px-6">
-        <div className="flex justify-end mb-3">
-          <SurveyFloat />
-        </div>
         <div className="space-y-6">
           <div className="reveal-section reveal-1">
             <Hero />
