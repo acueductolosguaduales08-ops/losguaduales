@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { X, ClipboardList } from 'lucide-react';
 import { useFetch } from '../../hooks/useFetch';
 import { EncuestasAPI } from '../../api/encuestas';
 
 export default function SurveyFloat() {
+  const [dismissed, setDismissed] = useState(false);
   const [closed, setClosed] = useState(false);
   const navigate = useNavigate();
 
@@ -13,9 +14,14 @@ export default function SurveyFloat() {
 
   if (!hayEncuestas || closed) return null;
 
+  const handleClose = () => {
+    setDismissed(true);
+    setTimeout(() => setClosed(true), 300);
+  };
+
   return (
     <div
-      className="absolute right-4 top-20 z-40 transition-transform duration-300"
+      className={`fixed right-4 top-20 z-40 ${dismissed ? 'animate-surveyOut' : 'animate-surveyIn'}`}
       style={{ width: 'calc(100% - 32px)', maxWidth: '350px' }}
     >
       <button
@@ -31,7 +37,7 @@ export default function SurveyFloat() {
         </p>
       </button>
       <button
-        onClick={() => setClosed(true)}
+        onClick={handleClose}
         aria-label="Cerrar aviso"
         className="absolute top-2 right-2 text-gray-500 dark:text-gray-400"
       >

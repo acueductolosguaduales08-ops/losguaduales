@@ -387,9 +387,37 @@ body {
   overflow: hidden;
 }
 
-/* ===== Scroll mejorado para modales en móviles ===== */
-.overflow-y-auto {
-  -webkit-overflow-scrolling: touch;
+/* ===== Animaciones de modales ===== */
+@keyframes modalOverlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes surveyIn {
+  from { opacity: 0; transform: translateX(24px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes surveyOut {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(24px); }
+}
+.animate-modalOverlayIn { animation: modalOverlayIn 0.2s ease-out both; }
+.animate-modalIn { animation: modalIn 0.2s ease-out both; }
+.animate-surveyIn { animation: surveyIn 0.35s ease-out both; }
+.animate-surveyOut { animation: surveyOut 0.3s ease-in both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-modalOverlayIn,
+  .animate-modalIn,
+  .animate-surveyIn,
+  .animate-surveyOut {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 /* Fix html5-qrcode scanner overlay covering bottom */

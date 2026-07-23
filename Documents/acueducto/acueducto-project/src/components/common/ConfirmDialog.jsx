@@ -14,10 +14,10 @@ export default function ConfirmDialog({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[120] flex items-start sm:items-center justify-center p-4 py-8 overflow-y-auto overscroll-contain" onClick={onCancel}>
+    <div className="fixed inset-0 z-[120] flex items-start sm:items-center justify-center p-4 py-8 overflow-y-auto overscroll-contain animate-modalOverlayIn" onClick={onCancel}>
       <div className="fixed inset-0 bg-black/50" aria-hidden="true" />
       <div
-        className="relative w-full max-w-xs bg-white dark:bg-dark-card rounded-2xl shadow-2xl p-5 text-center animate-[modalPop_0.2s_ease]"
+        className="relative w-full max-w-xs bg-white dark:bg-dark-card rounded-2xl shadow-2xl p-5 text-center animate-modalIn"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-500 flex items-center justify-center">

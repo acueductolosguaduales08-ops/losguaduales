@@ -93,12 +93,12 @@ export default function LoginModal({ open, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 bg-black/60 z-[70] overflow-y-auto overscroll-contain"
+      className="fixed inset-0 bg-black/60 z-[70] overflow-y-auto overscroll-contain animate-modalOverlayIn"
       onClick={handleClose}
     >
       <div className="min-h-full flex items-start sm:items-center justify-center p-4 py-8">
         <div
-          className="bg-white dark:bg-dark-card rounded-3xl w-full max-w-md relative shadow-2xl overflow-hidden"
+          className="bg-white dark:bg-dark-card rounded-3xl w-full max-w-md relative shadow-2xl overflow-hidden animate-modalIn"
           onClick={(e) => e.stopPropagation()}
         >
         <button

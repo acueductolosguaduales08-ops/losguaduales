@@ -56,11 +56,11 @@ export default function GalleryModal({ item, items = [], index = 0, onNavigate, 
 
   return (
     <div
-      className="fixed inset-0 bg-black/85 z-50 flex items-start sm:items-center justify-center p-2 sm:p-6 py-6 sm:py-6 overflow-y-auto overscroll-contain"
+      className="fixed inset-0 bg-black/85 z-50 flex items-start sm:items-center justify-center p-2 sm:p-6 py-6 sm:py-6 overflow-y-auto overscroll-contain animate-modalOverlayIn"
       onClick={onClose}
     >
       <div
-        className="bg-[#171c26] w-full max-w-3xl rounded-2xl overflow-hidden relative shadow-2xl flex flex-col max-h-[calc(100dvh-3rem)] sm:max-h-[92dvh]"
+        className="bg-[#171c26] w-full max-w-3xl rounded-2xl overflow-hidden relative shadow-2xl flex flex-col max-h-[calc(100dvh-3rem)] sm:max-h-[92dvh] animate-modalIn"
         onClick={(e) => e.stopPropagation()}
       >
         <button

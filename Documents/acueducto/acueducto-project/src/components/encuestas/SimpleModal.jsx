@@ -4,9 +4,9 @@ export default function SimpleModal({ open, onClose, title, maxWidth = 'max-w-md
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[80] flex items-start sm:items-center justify-center p-4 py-8 overflow-y-auto overscroll-contain" onClick={onClose}>
+    <div className="fixed inset-0 z-[80] flex items-start sm:items-center justify-center p-4 py-8 overflow-y-auto overscroll-contain animate-modalOverlayIn" onClick={onClose}>
       <div
-        className={`bg-white dark:bg-dark-card border border-gray-100 dark:border-gray-700 rounded-xl shadow-2xl w-full ${maxWidth} max-h-[90dvh] flex flex-col`}
+        className={`bg-white dark:bg-dark-card border border-gray-100 dark:border-gray-700 rounded-xl shadow-2xl w-full ${maxWidth} max-h-[90dvh] flex flex-col animate-modalIn`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="p-5 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center shrink-0">
