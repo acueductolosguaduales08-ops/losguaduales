@@ -23,7 +23,7 @@ export default function Home() {
   const closeGallery = () => setGalleryState({ item: null, items: [], index: 0 });
 
   return (
-    <div className="bg-gray-50 text-gray-800 dark:bg-dark-bg dark:text-gray-100 min-h-screen font-sans antialiased pb-24 transition-colors">
+    <div className="relative bg-gray-50 text-gray-800 dark:bg-dark-bg dark:text-gray-100 min-h-screen font-sans antialiased pb-24 transition-colors">
       <Header />
 
       <SurveyFloat />

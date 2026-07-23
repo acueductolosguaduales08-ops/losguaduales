@@ -387,6 +387,11 @@ body {
   overflow: hidden;
 }
 
+/* ===== Scroll mejorado para modales en móviles ===== */
+.overflow-y-auto {
+  -webkit-overflow-scrolling: touch;
+}
+
 /* Fix html5-qrcode scanner overlay covering bottom */
 .qr-scanner-container #qr-reader {
   border: none !important;

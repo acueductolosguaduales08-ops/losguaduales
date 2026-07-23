@@ -20,11 +20,17 @@ export default function useLockBodyScroll(active) {
     const previous = { htmlOverflow: html.style.overflow, bodyOverflow: body.style.overflow };
 
     html.style.overflow = 'hidden';
+    html.style.height = '100%';
     body.style.overflow = 'hidden';
+    body.style.height = '100%';
+    body.style.touchAction = 'none';
 
     return () => {
       html.style.overflow = previous.htmlOverflow;
+      html.style.height = '';
       body.style.overflow = previous.bodyOverflow;
+      body.style.height = '';
+      body.style.touchAction = '';
     };
   }, [active]);
 }
