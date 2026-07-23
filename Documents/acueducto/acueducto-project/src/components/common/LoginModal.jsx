@@ -93,14 +93,17 @@ export default function LoginModal({ open, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 bg-black/60 z-[70] overflow-y-auto overscroll-contain animate-modalOverlayIn"
+      className="fixed inset-0 z-[70] animate-modalOverlayIn"
       onClick={handleClose}
     >
-      <div className="min-h-full flex items-start sm:items-center justify-center p-4 py-8">
-        <div
-          className="bg-white dark:bg-dark-card rounded-3xl w-full max-w-md relative shadow-2xl overflow-hidden animate-modalIn"
-          onClick={(e) => e.stopPropagation()}
-        >
+      <div className="fixed inset-0 bg-black/60" />
+      <div
+        className="fixed bottom-0 left-0 right-0 sm:relative sm:mx-auto sm:my-8 bg-white dark:bg-dark-card rounded-t-3xl sm:rounded-3xl w-full sm:max-w-md sm:shadow-2xl max-h-[92dvh] sm:max-h-[85dvh] flex flex-col animate-modalMobileIn sm:animate-modalIn overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="sm:hidden flex justify-center pt-2.5 pb-1 shrink-0">
+          <div className="w-10 h-1 rounded-full bg-gray-300 dark:bg-gray-600" />
+        </div>
         <button
           onClick={handleClose}
           aria-label="Cerrar"
@@ -231,7 +234,6 @@ export default function LoginModal({ open, onClose }) {
             )}
           </div>
         )}
-        </div>
       </div>
     </div>
   );

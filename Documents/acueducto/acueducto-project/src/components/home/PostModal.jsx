@@ -51,11 +51,12 @@ export default function PostModal({ post, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-start sm:items-center justify-center overflow-y-auto p-4 sm:p-8 pt-8 pb-8 animate-modalOverlayIn"
+      className="fixed inset-0 z-50 animate-modalOverlayIn"
       onClick={onClose}
     >
+      <div className="fixed inset-0 bg-black/70 backdrop-blur-sm" />
       <div
-        className="bg-white dark:bg-dark-card w-full max-w-2xl rounded-2xl overflow-hidden relative shadow-2xl animate-modalIn"
+        className="fixed bottom-0 left-0 right-0 sm:relative sm:mx-auto sm:my-8 bg-white dark:bg-dark-card w-full sm:max-w-2xl rounded-t-2xl sm:rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92dvh] sm:max-h-[90dvh] animate-modalMobileIn sm:animate-modalIn"
         onClick={(e) => e.stopPropagation()}
       >
         <button

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { X, ClipboardList } from 'lucide-react';
 import { useFetch } from '../../hooks/useFetch';
@@ -21,7 +21,7 @@ export default function SurveyFloat() {
 
   return (
     <div
-      className={`fixed right-4 top-20 z-40 ${dismissed ? 'animate-surveyOut' : 'animate-surveyIn'}`}
+      className={`absolute right-4 top-20 z-40 ${dismissed ? 'animate-surveyOut' : 'animate-surveyIn'}`}
       style={{ width: 'calc(100% - 32px)', maxWidth: '350px' }}
     >
       <button
