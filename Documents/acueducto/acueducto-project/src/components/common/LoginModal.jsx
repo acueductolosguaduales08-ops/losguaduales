@@ -98,7 +98,7 @@ export default function LoginModal({ open, onClose }) {
     >
       <div className="fixed inset-0 bg-black/60" />
       <div
-        className="fixed bottom-0 left-0 right-0 sm:relative sm:mx-auto sm:my-8 bg-white dark:bg-dark-card rounded-t-3xl sm:rounded-3xl w-full sm:max-w-md sm:shadow-2xl max-h-[92dvh] sm:max-h-[85dvh] flex flex-col animate-modalMobileIn sm:animate-modalIn overflow-hidden"
+        className="fixed inset-0 sm:relative sm:mx-auto sm:my-auto bg-white dark:bg-dark-card flex flex-col sm:max-w-md sm:rounded-3xl sm:shadow-2xl sm:max-h-[85dvh] animate-modalMobileIn sm:animate-modalIn overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="sm:hidden flex justify-center pt-2.5 pb-1 shrink-0">

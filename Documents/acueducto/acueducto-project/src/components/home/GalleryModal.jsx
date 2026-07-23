@@ -61,7 +61,7 @@ export default function GalleryModal({ item, items = [], index = 0, onNavigate, 
     >
       <div className="fixed inset-0 bg-black/85" />
       <div
-        className="fixed bottom-0 left-0 right-0 sm:relative sm:mx-auto sm:my-8 bg-[#171c26] w-full max-w-3xl rounded-t-2xl sm:rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92dvh] sm:max-h-[92dvh] animate-modalMobileIn sm:animate-modalIn"
+        className="fixed inset-0 sm:relative sm:mx-auto sm:my-auto bg-[#171c26] w-full sm:max-w-3xl flex flex-col sm:rounded-2xl sm:shadow-2xl sm:max-h-[92dvh] animate-modalMobileIn sm:animate-modalIn overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <button

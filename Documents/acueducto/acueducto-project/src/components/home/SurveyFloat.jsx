@@ -21,12 +21,11 @@ export default function SurveyFloat() {
 
   return (
     <div
-      className={`absolute right-4 top-20 z-40 ${dismissed ? 'animate-surveyOut' : 'animate-surveyIn'}`}
-      style={{ width: 'calc(100% - 32px)', maxWidth: '350px' }}
+      className={`relative w-full max-w-[350px] ${dismissed ? 'animate-surveyOut' : 'animate-surveyIn'}`}
     >
       <button
         onClick={() => navigate('/encuestas')}
-        className="survey-card w-full text-left rounded-xl rounded-tl-none rounded-bl-none p-3 flex items-start gap-3 relative shadow-md"
+        className="survey-card w-full text-left rounded-xl rounded-tl-none rounded-bl-none p-3 flex items-start gap-3 shadow-md"
       >
         <ClipboardList className="w-8 h-8 text-brand shrink-0 mt-0.5" />
         <p className="text-sm text-gray-800 dark:text-gray-100 leading-snug pr-4">
